@@ -9,24 +9,25 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Entity(name = "Student")
+@Entity(name = "Employee")
 @Table(
         name = "employee",
         uniqueConstraints = {
-                    @UniqueConstraint(name = "employee_email_unique", columnNames = "email")
+                    @UniqueConstraint(name = "employee_email_unique", columnNames = "email"),
+                    @UniqueConstraint(name = "employee_username_unique", columnNames = "username")
             }
         )
 public class Employee {
     
     @Id
     @SequenceGenerator(
-                name = "student_sequence",
-                sequenceName = "student_sequence",
+                name = "employee_sequence",
+                sequenceName = "employee_sequence",
                 allocationSize = 1
             )
     @GeneratedValue(
                 strategy = GenerationType.SEQUENCE,
-                generator = "student_sequence"
+                generator = "employee_sequence"
             )
     @Column(
                 name = "id",
@@ -36,15 +37,13 @@ public class Employee {
     
     @Column(
                 name = "first_name",
-                nullable = false,
-                columnDefinition = "TEXT"
+                nullable = false
             )
     private String firstName;
     
     @Column(
                 name = "last_name",
-                nullable = false,
-                columnDefinition = "TEXT"
+                nullable = false
             )
     private String lastName;
     
@@ -55,46 +54,61 @@ public class Employee {
     private String email;
     
     @Column(
-                name = "age",
-                nullable = true
+                name = "username",
+                nullable = false
             )
-    private int age;
+    private String username;
+    
+    @Column(
+            name = "password",
+            nullable = false
+        )
+    private String password;
+    
+    @Column(
+            name = "role",
+            nullable = false
+        )
+    private String role;
     
     public Employee() {
     }
 
-    public Employee(Long id, String firstName, String lastName, String email, int age) {
+    public Employee(Long id, String firstName, String lastName, String email, String username, String password,
+            String role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.age = age;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
-    
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
-    
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -102,13 +116,29 @@ public class Employee {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    public int getAge() {
-        return age;
+
+    public String getUsername() {
+        return username;
     }
-    
-    public void setAge(int age) {
-        this.age = age;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
     
 }

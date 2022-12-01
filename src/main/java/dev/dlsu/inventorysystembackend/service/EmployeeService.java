@@ -42,7 +42,9 @@ public class EmployeeService {
         employeeEntity.setFirstName(employee.getFirstName());
         employeeEntity.setLastName(employee.getLastName());
         employeeEntity.setEmail(employee.getEmail());
-        employeeEntity.setAge(employee.getAge());
+        employeeEntity.setUsername(employee.getUsername());
+        employeeEntity.setPassword(employee.getPassword());
+        employeeEntity.setRole(employee.getPassword());
         
         employeeRepository.save(employeeEntity);
         
