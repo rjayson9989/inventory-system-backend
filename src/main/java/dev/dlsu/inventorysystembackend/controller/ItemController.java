@@ -33,17 +33,17 @@ public class ItemController {
     }
     
     @PostMapping
-    public ResponseEntity<String> addEmployee(@RequestBody Item item) {
+    public ResponseEntity<String> addItem(@RequestBody Item item) {
         return itemService.saveItem(item);
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateEmployee(@RequestBody Item item, @PathVariable Long id) {
+    public ResponseEntity<String> updateItem(@RequestBody Item item, @PathVariable Long id) {
         return itemService.editItem(item, id);
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
         return itemService.deleteItem(id);
     }
 }

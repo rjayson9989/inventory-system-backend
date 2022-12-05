@@ -23,12 +23,12 @@ public class LocationService {
         return locationRepository.findAll();
     }
 
-    public ResponseEntity<String> saveEmployee(Location location) {
+    public ResponseEntity<String> saveLocation(Location location) {
         locationRepository.save(location);
         return new ResponseEntity<String>("Save success", HttpStatus.OK);
     }
 
-    public ResponseEntity<String> editEmployee(Location location, Long id) {
+    public ResponseEntity<String> editLocation(Location location, Long id) {
         Optional<Location> target = locationRepository.findById(id);
         
         if (target.isEmpty()) {
@@ -46,7 +46,7 @@ public class LocationService {
         return new ResponseEntity<String>("Update success", HttpStatus.OK);
     }
 
-    public ResponseEntity<String> deleteEmployee(Long id) {
+    public ResponseEntity<String> deleteLocation(Long id) {
         Optional<Location> target = locationRepository.findById(id);
         
         if (target.isEmpty()) {

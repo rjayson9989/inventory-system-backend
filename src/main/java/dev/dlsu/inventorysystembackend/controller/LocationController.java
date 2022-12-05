@@ -31,18 +31,18 @@ public class LocationController {
     }
     
     @PostMapping
-    public ResponseEntity<String> addEmployee(@RequestBody Location location) {
-        return locationService.saveEmployee(location);
+    public ResponseEntity<String> addLocation(@RequestBody Location location) {
+        return locationService.saveLocation(location);
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateEmployee(@RequestBody Location location, @PathVariable Long id) {
-        return locationService.editEmployee(location, id);
+    public ResponseEntity<String> updateLocation(@RequestBody Location location, @PathVariable Long id) {
+        return locationService.editLocation(location, id);
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
-        return locationService.deleteEmployee(id);
+    public ResponseEntity<String> deleteLocation(@PathVariable Long id) {
+        return locationService.deleteLocation(id);
     }
     
 }
