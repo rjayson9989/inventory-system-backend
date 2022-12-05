@@ -34,7 +34,7 @@ private final ItemRepository itemRepository;
         Optional<Item> target = itemRepository.findById(id);
         
         if (target.isEmpty()) {
-            return new ResponseEntity<String>("No Item found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("No Location found", HttpStatus.NOT_FOUND);
         }
         
         Item itemEntity = target.get();
@@ -52,7 +52,7 @@ private final ItemRepository itemRepository;
         Optional<Item> target = itemRepository.findById(id);
         
         if (target.isEmpty()) {
-            return new ResponseEntity<String>("No Item found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("No Location found", HttpStatus.NOT_FOUND);
         }
         
         itemRepository.delete(target.get());
