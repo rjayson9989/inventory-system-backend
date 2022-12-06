@@ -2,11 +2,15 @@ package dev.dlsu.inventorysystembackend.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -90,5 +94,32 @@ public class Request {
     public void setRequestDate(LocalDate requestDate) {
         this.requestDate = requestDate;
     }
+
+    @ManyToOne(
+        cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+        name="employee_id",
+        referencedColumnName = "id"
+    )
+    private Employee employee;
+
+    public void setEmployee(Employee employee)
+    {
+        this.employee=employee;
+    }
     
+    @OneToOne(
+         cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+        name="Item_id",
+        referencedColumnName = "id"
+    )
+    private Item item; 
+    
+    public void setItem(Item item)
+    {
+        this.item=item;
+    }
 }

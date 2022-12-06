@@ -2,13 +2,17 @@ package dev.dlsu.inventorysystembackend.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 
 @Entity(name = "Item")
 @Table(name = "item")
@@ -89,5 +93,34 @@ public class Item {
     public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
-    
+
+    @ManyToOne(
+        cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+        name="employee_id",
+        referencedColumnName ="id"
+    )
+    private Employee employee;
+
+    public void setEmployee(Employee employee)
+    {
+        this.employee=employee;
+    }
+
+    @ManyToOne(
+        cascade = CascadeType.ALL
+    )
+
+    @JoinColumn(
+        name = "location_id",
+        referencedColumnName = "id"
+    )
+
+    private Location location;
+
+    public void setLocation(Location location){
+        this.location=location;
+    }
+
 }

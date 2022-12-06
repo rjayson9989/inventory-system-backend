@@ -3,6 +3,7 @@ package dev.dlsu.inventorysystembackend.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +31,9 @@ public class RequestController {
         return requestService.findAll();
     }
     
-    @PostMapping
-    public ResponseEntity<String> addRequest(@RequestBody Request request) {
-        return requestService.saveRequest(request);
+    @PostMapping("/{id}/{item_id}")
+    public ResponseEntity<String> addRequest(@RequestBody Request request,@PathVariable long id,@PathVariable long item_id) {
+        return requestService.makeRequest(request,item_id,id);
     }
     
     @PutMapping("/{id}")

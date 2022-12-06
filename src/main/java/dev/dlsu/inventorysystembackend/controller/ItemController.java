@@ -32,9 +32,9 @@ public class ItemController {
         return itemService.findAll();
     }
     
-    @PostMapping
-    public ResponseEntity<String> addItem(@RequestBody Item item) {
-        return itemService.saveItem(item);
+    @PostMapping("/{id}/{locationId}")
+    public ResponseEntity<String> saveItem(@RequestBody Item item,@PathVariable Long id,@PathVariable Long locationId) {
+        return itemService.saveItem(item,id,locationId);
     }
     
     @PutMapping("/{id}")
