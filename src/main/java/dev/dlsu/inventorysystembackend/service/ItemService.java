@@ -33,23 +33,7 @@ private final LocationRepository locationRepository;
         return itemRepository.findAll();
     }
 
-    public ResponseEntity<String> saveItem(Item item, Long id, Long locationId) {
-        Optional<Employee> target=employeeRepository.findById(id);
-
-        if (target.isEmpty()) {
-            return new ResponseEntity<String>("Employee does not exist", HttpStatus.NOT_FOUND);
-        }
-
-        Optional<Location> targetLocation = locationRepository.findById(locationId);
-
-        if (targetLocation.isEmpty()) {
-            return new ResponseEntity<String>("Location does not exist", HttpStatus.NOT_FOUND);
-        }
-
-        Location locationEntity = targetLocation.get();
-        Employee employeeEntity = target.get();
-        item.setEmployee(employeeEntity);
-        item.setLocation(locationEntity);
+    public ResponseEntity<String> saveItem(Item item) {
         itemRepository.save(item);
         return new ResponseEntity<String>("Save success", HttpStatus.OK);
     }
@@ -58,7 +42,7 @@ private final LocationRepository locationRepository;
         Optional<Item> target = itemRepository.findById(id);
         
         if (target.isEmpty()) {
-            return new ResponseEntity<String>("No Location found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("No Item found", HttpStatus.NOT_FOUND);
         }
         
         Item itemEntity = target.get();
@@ -82,6 +66,56 @@ private final LocationRepository locationRepository;
         itemRepository.delete(target.get());
         
         return new ResponseEntity<String>("Delete success", HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> assignEmployee(Long itemId, Long employeeId) {
+        Optional<Item> targetItem = itemRepository.findById(itemId);
+        
+        if (targetItem.isEmpty()) {
+            return new ResponseEntity<String>("No Item found", HttpStatus.NOT_FOUND);
+        }
+        
+        Optional<Employee> targetEmployee = employeeRepository.findById(employeeId);
+        
+        if (targetEmployee.isEmpty()) {
+            return new ResponseEntity<String>("No Employee found", HttpStatus.NOT_FOUND);
+        }
+        
+        Item item = targetItem.get();
+        Employee employee = targetEmployee.get();
+        
+        item.setEmployee(employee);
+        
+        itemRepository.save(item);
+        
+        String successString = "Successfully assigned " + item.getName() + " to " + employee.getFirstName() + " " + employee.getLastName();
+        
+        return new ResponseEntity<String>(successString, HttpStatus.OK);
+    }
+    
+    public ResponseEntity<String> assignLocation(Long itemId, Long locationId) {
+        Optional<Item> targetItem = itemRepository.findById(itemId);
+        
+        if (targetItem.isEmpty()) {
+            return new ResponseEntity<String>("No Item found", HttpStatus.NOT_FOUND);
+        }
+        
+        Optional<Location> targetLocation = locationRepository.findById(locationId);
+        
+        if (targetLocation.isEmpty()) {
+            return new ResponseEntity<String>("No Location found", HttpStatus.NOT_FOUND);
+        }
+        
+        Item item = targetItem.get();
+        Location location = targetLocation.get();
+        
+        item.setLocation(location);
+        
+        itemRepository.save(item);
+        
+        String successString = "Successfully assigned " + item.getName() + " to " + location.getAddress() + ", " + location.getCity() + ", " + location.getCountry();
+        
+        return new ResponseEntity<String>(successString, HttpStatus.OK);
     }
     
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.dlsu.inventorysystembackend.model.Item;
@@ -32,9 +33,9 @@ public class ItemController {
         return itemService.findAll();
     }
     
-    @PostMapping("/{id}/{locationId}")
-    public ResponseEntity<String> saveItem(@RequestBody Item item,@PathVariable Long id,@PathVariable Long locationId) {
-        return itemService.saveItem(item,id,locationId);
+    @PostMapping
+    public ResponseEntity<String> saveItem(@RequestBody Item item) {
+        return itemService.saveItem(item);
     }
     
     @PutMapping("/{id}")
@@ -45,5 +46,15 @@ public class ItemController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable Long id) {
         return itemService.deleteItem(id);
+    }
+    
+    @PostMapping("/{itemId}/assign/employee/{employeeId}")
+    public ResponseEntity<String> assignEmpoyee(@PathVariable Long itemId, @PathVariable Long employeeId) {
+        return itemService.assignEmployee(itemId, employeeId);
+    }
+    
+    @PostMapping("/{itemId}/assign/location/{locationId}")
+    public ResponseEntity<String> assignLocation(@PathVariable Long itemId, @PathVariable Long locationId) {
+        return itemService.assignLocation(itemId, locationId);
     }
 }

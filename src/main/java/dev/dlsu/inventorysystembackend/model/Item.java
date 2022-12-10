@@ -51,6 +51,24 @@ public class Item {
             nullable = false
         )
     private LocalDate purchaseDate;
+    
+    @ManyToOne(
+            cascade = CascadeType.ALL
+        )
+    @JoinColumn(
+            name="employee_id",
+            referencedColumnName ="id"
+        )
+    private Employee employee;
+
+    @ManyToOne(
+            cascade = CascadeType.ALL
+        )
+    @JoinColumn(
+            name = "location_id",
+            referencedColumnName = "id"
+        )
+    private Location location;
 
     public Item() {
     }
@@ -93,34 +111,21 @@ public class Item {
     public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
-
-    @ManyToOne(
-        cascade = CascadeType.ALL
-    )
-    @JoinColumn(
-        name="employee_id",
-        referencedColumnName ="id"
-    )
-    private Employee employee;
-
-    public void setEmployee(Employee employee)
-    {
-        this.employee=employee;
+    
+    public Employee getEmployee() {
+        return employee;
     }
 
-    @ManyToOne(
-        cascade = CascadeType.ALL
-    )
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
-    @JoinColumn(
-        name = "location_id",
-        referencedColumnName = "id"
-    )
+    public Location getLocation() {
+        return location;
+    }
 
-    private Location location;
-
-    public void setLocation(Location location){
-        this.location=location;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
 }
