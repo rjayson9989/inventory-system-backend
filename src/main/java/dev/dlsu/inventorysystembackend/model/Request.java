@@ -53,6 +53,24 @@ public class Request {
         )
     private LocalDate requestDate;
     
+    @ManyToOne(
+            cascade = CascadeType.ALL
+        )
+    @JoinColumn(
+            name="employee_id",
+            referencedColumnName = "id"
+        )
+    private Employee employee;
+    
+    @OneToOne(
+             cascade = CascadeType.ALL
+        )
+    @JoinColumn(
+            name="Item_id",
+            referencedColumnName = "id"
+        )
+    private Item item;
+    
     public Request() {
     }
         
@@ -95,31 +113,20 @@ public class Request {
         this.requestDate = requestDate;
     }
 
-    @ManyToOne(
-        cascade = CascadeType.ALL
-    )
-    @JoinColumn(
-        name="employee_id",
-        referencedColumnName = "id"
-    )
-    private Employee employee;
+    public Employee getEmployee() {
+        return employee;
+    }
 
-    public void setEmployee(Employee employee)
-    {
-        this.employee=employee;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
-    
-    @OneToOne(
-         cascade = CascadeType.ALL
-    )
-    @JoinColumn(
-        name="Item_id",
-        referencedColumnName = "id"
-    )
-    private Item item; 
-    
-    public void setItem(Item item)
-    {
-        this.item=item;
+
+    public Item getItem() {
+        return item;
     }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
 }

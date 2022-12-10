@@ -31,9 +31,9 @@ public class RequestController {
         return requestService.findAll();
     }
     
-    @PostMapping("/{id}/{item_id}")
-    public ResponseEntity<String> addRequest(@RequestBody Request request,@PathVariable long id,@PathVariable long item_id) {
-        return requestService.makeRequest(request,item_id,id);
+    @PostMapping
+    public ResponseEntity<String> addRequest(@RequestBody Request request) {
+        return requestService.makeRequest(request);
     }
     
     @PutMapping("/{id}")
@@ -44,5 +44,15 @@ public class RequestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRequest(@PathVariable Long id) {
         return requestService.deleteRequest(id);
+    }
+    
+    @PostMapping("/{requestId}/assign/employee/{employeeId}")
+    public ResponseEntity<String> assignEmployee(@PathVariable Long requestId, @PathVariable Long employeeId) {
+        return requestService.assignEmployee(requestId, employeeId);
+    }
+    
+    @PostMapping("/{requestId}/assign/item/{itemId}")
+    public ResponseEntity<String> assignItem(@PathVariable Long requestId, @PathVariable Long itemId) {
+        return requestService.assignItem(requestId, itemId);
     }
 }
