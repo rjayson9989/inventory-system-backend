@@ -49,7 +49,7 @@ public class Request {
     
     @Column(
             name = "date_issued",
-            nullable = false
+            nullable = true
         )
     private LocalDate requestDate;
     

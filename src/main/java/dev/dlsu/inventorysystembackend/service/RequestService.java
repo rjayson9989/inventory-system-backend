@@ -1,5 +1,6 @@
 package dev.dlsu.inventorysystembackend.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,7 @@ public class RequestService {
     }
 
     public ResponseEntity<String> makeRequest(Request request) {
+        request.setRequestDate(LocalDate.now());
         requestRepository.save(request);
         return new ResponseEntity<String>("Request created Successfully", HttpStatus.OK);
     }
