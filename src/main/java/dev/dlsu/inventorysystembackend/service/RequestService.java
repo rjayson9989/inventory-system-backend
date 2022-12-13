@@ -140,7 +140,7 @@ public class RequestService {
             return new ResponseEntity<String>("Employee not found", HttpStatus.NOT_FOUND);
         }
         Employee employee = targetEmployee.get();
-        
+        request.setRequestDate(LocalDate.now());
         request.setEmployee(employee);
         
         requestRepository.save(request);
