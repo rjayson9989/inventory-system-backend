@@ -117,5 +117,15 @@ private final LocationRepository locationRepository;
         
         return new ResponseEntity<String>(successString, HttpStatus.OK);
     }
+
+    public Item getItemById(Long id) {
+        Optional<Item> target = itemRepository.findById(id);
+        
+        if (target.isEmpty()) {
+            return null;
+        }
+        
+        return target.get();
+    }
     
 }

@@ -57,5 +57,15 @@ public class LocationService {
         
         return new ResponseEntity<String>("Delete success", HttpStatus.OK);
     }
+
+    public Location getLocationById(Long id) {
+        Optional<Location> target = locationRepository.findById(id);
+        
+        if (target.isEmpty()) {
+            return null;
+        }
+        
+        return target.get();
+    }
     
 }

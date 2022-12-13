@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.dlsu.inventorysystembackend.model.Item;
 import dev.dlsu.inventorysystembackend.service.ItemService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/item")
 public class ItemController {
@@ -35,6 +37,11 @@ public class ItemController {
     @PostMapping
     public ResponseEntity<String> saveItem(@RequestBody Item item) {
         return itemService.saveItem(item);
+    }
+    
+    @GetMapping("/{id}")
+    public Item getItemById(@PathVariable Long id) {
+        return itemService.getItemById(id);
     }
     
     @PutMapping("/{id}")

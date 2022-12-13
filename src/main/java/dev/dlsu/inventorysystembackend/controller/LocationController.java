@@ -3,6 +3,7 @@ package dev.dlsu.inventorysystembackend.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.dlsu.inventorysystembackend.model.Location;
 import dev.dlsu.inventorysystembackend.service.LocationService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/location")
 public class LocationController {
@@ -33,6 +35,11 @@ public class LocationController {
     @PostMapping
     public ResponseEntity<String> addLocation(@RequestBody Location location) {
         return locationService.saveLocation(location);
+    }
+    
+    @GetMapping("/{id}")
+    public Location getLocationById(@PathVariable Long id) {
+        return locationService.getLocationById(id);
     }
     
     @PutMapping("/{id}")

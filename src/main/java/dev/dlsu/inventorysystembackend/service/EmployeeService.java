@@ -90,5 +90,15 @@ public class EmployeeService {
         
         return new ResponseEntity<String>("Delete success", HttpStatus.OK);
     }
+
+    public Employee getEmployeeById(Long id) {
+        Optional<Employee> target = employeeRepository.findById(id);
+        
+        if (target.isEmpty()) {
+            return null;
+        }
+        
+        return target.get();
+    }
     
 }

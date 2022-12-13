@@ -1,5 +1,6 @@
 package dev.dlsu.inventorysystembackend.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,7 @@ public class RequestService {
     }
 
     public ResponseEntity<String> makeRequest(Request request) {
+        request.setRequestDate(LocalDate.now());
         requestRepository.save(request);
         return new ResponseEntity<String>("Request created Successfully", HttpStatus.OK);
     }
@@ -119,6 +121,16 @@ public class RequestService {
         String successString = "Successfully assigned request #" + request.getId() + " to " + item.getName();
         
         return new ResponseEntity<String>(successString, HttpStatus.OK);
+    }
+
+    public Request getRequestById(Long id) {
+        Optional<Request> target = requestRepository.findById(id);
+        
+        if (target.isEmpty()) {
+            return null;
+        }
+        
+        return target.get();
     }
     
     
