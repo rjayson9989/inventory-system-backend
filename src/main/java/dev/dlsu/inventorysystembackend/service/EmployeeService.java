@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dev.dlsu.inventorysystembackend.model.Employee;
@@ -15,10 +16,12 @@ import dev.dlsu.inventorysystembackend.repository.EmployeeRepository;
 public class EmployeeService {
     
     private final EmployeeRepository employeeRepository;
+    private final PasswordEncoder encoder;
     
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, PasswordEncoder encoder) {
         this.employeeRepository = employeeRepository;
+        this.encoder = encoder;
     }
 
     public List<Employee> findAll() {
@@ -26,6 +29,19 @@ public class EmployeeService {
     }
 
     public ResponseEntity<String> saveEmployee(Employee employee) {
+        Optional<Employee> findUsername = employeeRepository.findByUsername(employee.getUsername());
+        
+        if (findUsername.isPresent()) {
+            return new ResponseEntity<String>("Username " + employee.getUsername() + " already taken", HttpStatus.CONFLICT);
+        }
+        
+        Optional<Employee> findEmail = employeeRepository.findByEmail(employee.getEmail());
+        
+        if (findEmail.isPresent()) {
+            return new ResponseEntity<String>("Email " + employee.getEmail() + " already taken", HttpStatus.CONFLICT);
+        }
+        
+        employee.setPassword(encoder.encode(employee.getPassword()));
         employeeRepository.save(employee);
         return new ResponseEntity<String>("Save success", HttpStatus.OK);
     }
@@ -39,12 +55,24 @@ public class EmployeeService {
         
         Employee employeeEntity = target.get();
         
+        Optional<Employee> findUsername = employeeRepository.findByUsername(employee.getUsername());
+        
+        if (findUsername.isPresent() && findUsername.get().getId() != employeeEntity.getId()) {
+            return new ResponseEntity<String>("Username " + employee.getUsername() + " already taken", HttpStatus.CONFLICT);
+        }
+        
+        Optional<Employee> findEmail = employeeRepository.findByEmail(employee.getEmail());
+        
+        if (findEmail.isPresent() && findEmail.get().getId() != employeeEntity.getId()) {
+            return new ResponseEntity<String>("Email " + employee.getEmail() + " already taken", HttpStatus.CONFLICT);
+        }
+        
         employeeEntity.setFirstName(employee.getFirstName());
         employeeEntity.setLastName(employee.getLastName());
         employeeEntity.setEmail(employee.getEmail());
         employeeEntity.setUsername(employee.getUsername());
-        employeeEntity.setPassword(employee.getPassword());
-        employeeEntity.setRole(employee.getPassword());
+        employeeEntity.setPassword(encoder.encode(employee.getPassword()));
+        employeeEntity.setRole(employee.getRole());
         
         employeeRepository.save(employeeEntity);
         
