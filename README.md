@@ -5,7 +5,7 @@
 ### Progress
 - [x] CRUD Operations
 - [x] JPA Relationships
-- [] Login System
+- [x] Login System
 - [] Integration testing with [Frontend](https://github.com/Mac-Peralta/inventory-react-ui)
 
 ***  
