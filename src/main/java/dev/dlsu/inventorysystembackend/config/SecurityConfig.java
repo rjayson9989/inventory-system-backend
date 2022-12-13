@@ -24,9 +24,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.disable())
             .authorizeRequests(
-                       auth -> auth.mvcMatchers(HttpMethod.POST, "/api/employee").permitAll()
+                       auth -> auth.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                                   .mvcMatchers("/api/employee/**").permitAll()
+                                   .mvcMatchers("/api/item/**").permitAll()
+                                   .mvcMatchers("/api/location/**").permitAll()
+                                   .mvcMatchers("/api/request/**").permitAll()
                                    .anyRequest().authenticated()
                     )
             .userDetailsService(employeeUserDetailsService)
