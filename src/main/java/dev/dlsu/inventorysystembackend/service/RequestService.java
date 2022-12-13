@@ -43,6 +43,15 @@ public class RequestService {
         return new ResponseEntity<String>("Save success", HttpStatus.OK);
     }
 
+    public Request findRequestById(Long id){
+        Optional<Request> target=requestRepository.findById(id);
+        if (target.isEmpty()) {
+            return null;
+        }
+
+        return target.get();
+    }
+
     public ResponseEntity<String> editRequest(Request request, Long id) {
         Optional<Request> target = requestRepository.findById(id);
         
@@ -121,6 +130,21 @@ public class RequestService {
         String successString = "Successfully assigned request #" + request.getId() + " to " + item.getName();
         
         return new ResponseEntity<String>(successString, HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> employeeMakeRequest(Request request,Long employeeId){
+        
+        Optional<Employee> targetEmployee = employeeRepository.findById(employeeId);
+
+        if (targetEmployee.isEmpty()) {
+            return new ResponseEntity<String>("Employee not found", HttpStatus.NOT_FOUND);
+        }
+        Employee employee = targetEmployee.get();
+        
+        request.setEmployee(employee);
+        
+        requestRepository.save(request);
+        return new ResponseEntity<String>("Request Made Successfully", HttpStatus.OK);
     }
     
     

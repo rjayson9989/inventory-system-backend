@@ -36,6 +36,11 @@ public class RequestController {
     public ResponseEntity<String> addRequest(@RequestBody Request request) {
         return requestService.makeRequest(request);
     }
+
+    @GetMapping("/{id}")
+    public Request findRequestById(@PathVariable Long id){
+        return requestService.findRequestById(id);
+    }
     
     @PutMapping("/{id}")
     public ResponseEntity<String> updateRequest(@RequestBody Request request, @PathVariable Long id) {
@@ -55,5 +60,10 @@ public class RequestController {
     @PostMapping("/{requestId}/assign/item/{itemId}")
     public ResponseEntity<String> assignItem(@PathVariable Long requestId, @PathVariable Long itemId) {
         return requestService.assignItem(requestId, itemId);
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<String> employeeMakeRequest(@RequestBody Request request, @PathVariable Long id ){
+        return requestService.employeeMakeRequest(request, id);
     }
 }

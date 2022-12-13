@@ -39,6 +39,11 @@ public class ItemController {
         return itemService.saveItem(item);
     }
     
+    @GetMapping("/{id}")
+    public Item findItemById(@PathVariable Long id){
+        return itemService.findItemById(id);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<String> updateItem(@RequestBody Item item, @PathVariable Long id) {
         return itemService.editItem(item, id);

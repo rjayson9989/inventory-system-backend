@@ -38,6 +38,15 @@ private final LocationRepository locationRepository;
         return new ResponseEntity<String>("Save success", HttpStatus.OK);
     }
 
+    public Item findItemById(Long id){
+        Optional<Item> target = itemRepository.findById(id);
+        
+        if (target.isEmpty()) {
+            return null;
+        }
+        return target.get();
+    }
+
     public ResponseEntity<String> editItem(Item item, Long id) {
         Optional<Item> target = itemRepository.findById(id);
         

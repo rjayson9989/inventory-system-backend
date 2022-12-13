@@ -28,6 +28,7 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+    
 
     @GetMapping
     public List<Employee> findAll() {
@@ -39,6 +40,11 @@ public class EmployeeController {
         return employeeService.saveEmployee(employee);
     }
     
+    @GetMapping("/{id}")
+    public Employee findEmployeeById(@PathVariable Long id){
+        return employeeService.getEmployeebyId(id);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<String> updateEmployee(@RequestBody Employee employee, @PathVariable Long id) {
         return employeeService.editEmployee(employee, id);

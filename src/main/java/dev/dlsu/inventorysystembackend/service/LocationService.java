@@ -28,6 +28,16 @@ public class LocationService {
         return new ResponseEntity<String>("Save success", HttpStatus.OK);
     }
 
+    public Location findLocationById(Long id){
+        Optional<Location> target = locationRepository.findById(id);
+        
+        if (target.isEmpty()) {
+            return null;
+        }
+
+        return target.get();
+    }
+
     public ResponseEntity<String> editLocation(Location location, Long id) {
         Optional<Location> target = locationRepository.findById(id);
         
