@@ -1,22 +1,29 @@
 package dev.dlsu.inventorysystembackend.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import dev.dlsu.inventorysystembackend.model.Item;
 import dev.dlsu.inventorysystembackend.model.Location;
+import dev.dlsu.inventorysystembackend.repository.ItemRepository;
 import dev.dlsu.inventorysystembackend.repository.LocationRepository;
 
 @Service
 public class LocationService {
     
     private final LocationRepository locationRepository;
-
-    public LocationService(LocationRepository locationRepository) {
+    private final ItemRepository itemRepository;
+    
+    @Autowired
+    public LocationService(LocationRepository locationRepository, ItemRepository itemRepository) {
         this.locationRepository = locationRepository;
+        this.itemRepository = itemRepository;
     }
 
     public List<Location> findAll() {
@@ -52,6 +59,13 @@ public class LocationService {
         if (target.isEmpty()) {
             return new ResponseEntity<String>("No Item found", HttpStatus.NOT_FOUND);
         }
+        
+        ArrayList<Item> relatedItems = itemRepository.findAllByLocation(target.get());
+        
+        relatedItems.stream()
+                    .forEach(item -> item.setLocation(null));
+        
+        itemRepository.saveAll(relatedItems);
         
         locationRepository.delete(target.get());
         

@@ -18,9 +18,9 @@ import dev.dlsu.inventorysystembackend.repository.LocationRepository;
 @Service
 public class ItemService {
 
-private final EmployeeRepository employeeRepository; 
-private final ItemRepository itemRepository;
-private final LocationRepository locationRepository;
+    private final EmployeeRepository employeeRepository; 
+    private final ItemRepository itemRepository;
+    private final LocationRepository locationRepository;
     
     @Autowired
     public ItemService(ItemRepository itemRepository, EmployeeRepository employeeRepository, LocationRepository locationRepository) {
@@ -63,7 +63,12 @@ private final LocationRepository locationRepository;
             return new ResponseEntity<String>("No Location found", HttpStatus.NOT_FOUND);
         }
         
-        itemRepository.delete(target.get());
+        Item itemEntity = target.get();
+        
+        itemEntity.setEmployee(null);
+        itemEntity.setLocation(null);
+        
+        itemRepository.delete(itemEntity);
         
         return new ResponseEntity<String>("Delete success", HttpStatus.OK);
     }

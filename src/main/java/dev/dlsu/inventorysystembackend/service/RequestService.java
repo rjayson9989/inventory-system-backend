@@ -68,6 +68,11 @@ public class RequestService {
             return new ResponseEntity<String>("No Location found", HttpStatus.NOT_FOUND);
         }
         
+        Request requestEntity = target.get();
+        
+        requestEntity.setEmployee(null);
+        requestEntity.setItem(null);
+        
         requestRepository.delete(target.get());
         
         return new ResponseEntity<String>("Delete success", HttpStatus.OK);

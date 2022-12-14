@@ -1,5 +1,6 @@
 package dev.dlsu.inventorysystembackend.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,17 +11,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dev.dlsu.inventorysystembackend.model.Employee;
+import dev.dlsu.inventorysystembackend.model.Item;
+import dev.dlsu.inventorysystembackend.model.Request;
 import dev.dlsu.inventorysystembackend.repository.EmployeeRepository;
+import dev.dlsu.inventorysystembackend.repository.ItemRepository;
+import dev.dlsu.inventorysystembackend.repository.RequestRepository;
 
 @Service
 public class EmployeeService {
     
     private final EmployeeRepository employeeRepository;
+    private final ItemRepository itemRepository;
+    private final RequestRepository requestRepository;
     private final PasswordEncoder encoder;
     
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, PasswordEncoder encoder) {
+    public EmployeeService(EmployeeRepository employeeRepository, ItemRepository itemRepository,
+            RequestRepository requestRepository, PasswordEncoder encoder) {
         this.employeeRepository = employeeRepository;
+        this.itemRepository = itemRepository;
+        this.requestRepository = requestRepository;
         this.encoder = encoder;
     }
 
@@ -85,6 +95,20 @@ public class EmployeeService {
         if (target.isEmpty()) {
             return new ResponseEntity<String>("No Employee found", HttpStatus.NOT_FOUND);
         }
+        
+        ArrayList<Request> relatedRequests = requestRepository.findAllByEmployee(target.get());
+        
+        relatedRequests.stream()
+                       .forEach(request -> request.setEmployee(null));
+        
+        requestRepository.deleteAll(relatedRequests);
+        
+        ArrayList<Item> relatedItems = itemRepository.findAllByEmployee(target.get());
+        
+        relatedItems.stream()
+                    .forEach(item -> item.setEmployee(null));
+        
+        itemRepository.saveAll(relatedItems);
         
         employeeRepository.delete(target.get());
         
